@@ -2,18 +2,20 @@
 
 # Remove all variables from the environment. ls() lists variables, rm() removes variables.
 # This won't remove variables beginning with '.', use rm(list = ls(all.names = TRUE)) for that.
-rm(list = ls())
+rm(list = ls(all.names = TRUE))
 
+# Missing packages can be installed using install.packages("<package>") in the R Console.
 library(unmarked)
 library(reshape2)
 library(ggplot2)
-library(plyr)
+# library(plyr) # plyr is included as a dependency in package unmarked.
 
 setwd("C:/Users/Don/projects/AMRO")
 
 pointCount <- read.csv('PC_DATA_16.csv', header=TRUE)
 
 # Get rid of surveys from points with no planting or no maintenance due to not enough survey points
+# Note for Don: in R, & is a vectorized operator. &&  form evaluates left to right examining only the first element of each vector.
 pointCount <- subset(pointCount, pointCount[,2] != "Maintenance_No_Planting"  & pointCount[,2] != "No_Planting_No_Maintenance", drop=T)
 
 # Create a column for age value and fill it
