@@ -1,11 +1,15 @@
-rm(list=ls())
+# https://google.github.io/styleguide/Rguide.xml
+
+# Remove all variables from the environment. ls() lists variables, rm() removes variables.
+# This won't remove variables beginning with '.', use rm(list = ls(all.names = TRUE)) for that.
+rm(list = ls())
 
 library(unmarked)
 library(reshape2)
 library(ggplot2)
 library(plyr)
 
-setwd("C:/Users/Tim/Desktop/Tims Stuff DNS Laptop/timmerdrive2/DNS Middle Run/Point Counts/ANALYSIS/Thrushes/AMRO")
+setwd("C:/Users/Don/projects/AMRO")
 
 pc<-read.csv('PC_DATA_16.csv', header=TRUE)
 
