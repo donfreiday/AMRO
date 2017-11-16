@@ -11,120 +11,115 @@ library(plyr)
 
 setwd("C:/Users/Don/projects/AMRO")
 
-pc<-read.csv('PC_DATA_16.csv', header=TRUE)
+pointCount <- read.csv('PC_DATA_16.csv', header=TRUE)
 
-#get rid of surveys from no planting no maintenance due to not enough survey points
+# Get rid of surveys from points with no planting or no maintenance due to not enough survey points
+pointCount <- subset(pointCount, pointCount[,2] != "Maintenance_No_Planting"  & pointCount[,2] != "No_Planting_No_Maintenance", drop=T)
 
-pc <- subset(pc, pc[,2] != "Maintenance_No_Planting"  & pc[,2] != "No_Planting_No_Maintenance", drop=T)
-
-#create a column for age value and fill it
-
-
-
-
-pc$age <- ifelse(pc[,2] == "Original_y25_1", 25,
-                 ifelse(pc[,2] == "Original_y25_2", 25,
-                        ifelse(pc[,2] == "Original_y25_3", 25,
-                               ifelse(pc[,2] == "Original_y25_4", 25,
-                                      ifelse(pc[,2] == "Church_y15_3", 15,
-                                             ifelse(pc[,2] == "Church_y15_2", 15,
-                                                    ifelse(pc[,2] == "Triangle_y15_2", 15,
-                                                           ifelse(pc[,2] == "Triangle_y15_1", 15,
-                                                                  ifelse(pc[,2] == "Triangle_y7_2", 7,
-                                                                         ifelse(pc[,2] == "Triangle_y7_1", 7,
-                                                                                ifelse(pc[,2] == "Fox_Den_y7_2", 7,      
-                                                                                       ifelse(pc[,2] == "Fox_Den_y5_1", 5, 
-                                                                                              ifelse(pc[,2] == "Fox_Den_y5_2", 5, 
-                                                                                                     ifelse(pc[,2] == "Fox_Den_y5_3", 5,       
-                                                                                                            ifelse(pc[,2] == "Fox_Den_y3_1", 3,    
-                                                                                                                   ifelse(pc[,2] == "Fox_Den_y3_2", 3,   
-                                                                                                                          ifelse(pc[,2] == "Fox_Den_y3_3", 3,  
-                                                                                                                                 ifelse(pc[,2] == "Fox_Den_y3_4", 3,
-                                                                                                                                        ifelse(pc[,2] == "Mowed_y0_3", 0,
-                                                                                                                                               ifelse(pc[,2] == "Mowed_y0_4", 0,
-                                                                                                                                                      ifelse(pc[,2] == "Fox_Den_y0_1", 0,
+# Create a column for age value and fill it
+pointCount$age <- ifelse(pointCount[,2] == "Original_y25_1", 25,
+                 ifelse(pointCount[,2] == "Original_y25_2", 25,
+                        ifelse(pointCount[,2] == "Original_y25_3", 25,
+                               ifelse(pointCount[,2] == "Original_y25_4", 25,
+                                      ifelse(pointCount[,2] == "Church_y15_3", 15,
+                                             ifelse(pointCount[,2] == "Church_y15_2", 15,
+                                                    ifelse(pointCount[,2] == "Triangle_y15_2", 15,
+                                                           ifelse(pointCount[,2] == "Triangle_y15_1", 15,
+                                                                  ifelse(pointCount[,2] == "Triangle_y7_2", 7,
+                                                                         ifelse(pointCount[,2] == "Triangle_y7_1", 7,
+                                                                                ifelse(pointCount[,2] == "Fox_Den_y7_2", 7,      
+                                                                                       ifelse(pointCount[,2] == "Fox_Den_y5_1", 5, 
+                                                                                              ifelse(pointCount[,2] == "Fox_Den_y5_2", 5, 
+                                                                                                     ifelse(pointCount[,2] == "Fox_Den_y5_3", 5,       
+                                                                                                            ifelse(pointCount[,2] == "Fox_Den_y3_1", 3,    
+                                                                                                                   ifelse(pointCount[,2] == "Fox_Den_y3_2", 3,   
+                                                                                                                          ifelse(pointCount[,2] == "Fox_Den_y3_3", 3,  
+                                                                                                                                 ifelse(pointCount[,2] == "Fox_Den_y3_4", 3,
+                                                                                                                                        ifelse(pointCount[,2] == "Mowed_y0_3", 0,
+                                                                                                                                               ifelse(pointCount[,2] == "Mowed_y0_4", 0,
+                                                                                                                                                      ifelse(pointCount[,2] == "Fox_Den_y0_1", 0,
                                                                                                                                                              
                                                                                                                                                              NA  )))))))))))))))))))))
 
 #now create a new column called category based on the age of tree, which will be used as the block for analysis
 
-pc$category <- ifelse(pc[,2] == "Original_y25_1", "y25",
-                      ifelse(pc[,2] == "Original_y25_2","y25",
-                             ifelse(pc[,2] == "Original_y25_3","y25",
-                                    ifelse(pc[,2] == "Original_y25_4","y25",
-                                           ifelse(pc[,2] == "Church_y15_3", "y15",
-                                                  ifelse(pc[,2] == "Church_y15_2", "y15",
-                                                         ifelse(pc[,2] == "Triangle_y15_2", "y15",
-                                                                ifelse(pc[,2] == "Triangle_y15_1", "y15",
-                                                                       ifelse(pc[,2] == "Triangle_y7_2", "y7",
-                                                                              ifelse(pc[,2] == "Triangle_y7_1", "y7",
-                                                                                     ifelse(pc[,2] == "Fox_Den_y7_2", "y7",      
-                                                                                            ifelse(pc[,2] == "Fox_Den_y5_1", "y5", 
-                                                                                                   ifelse(pc[,2] == "Fox_Den_y5_2", "y5", 
-                                                                                                          ifelse(pc[,2] == "Fox_Den_y5_3", "y5",       
-                                                                                                                 ifelse(pc[,2] == "Fox_Den_y3_1", "y3",    
-                                                                                                                        ifelse(pc[,2] == "Fox_Den_y3_2", "y3",   
-                                                                                                                               ifelse(pc[,2] == "Fox_Den_y3_3", "y3",  
-                                                                                                                                      ifelse(pc[,2] == "Fox_Den_y3_4", "y3",
-                                                                                                                                             ifelse(pc[,2] == "Mowed_y0_3", "y0",
-                                                                                                                                                    ifelse(pc[,2] == "Mowed_y0_4", "y0",
-                                                                                                                                                           ifelse(pc[,2] == "Fox_Den_y0_1", "y0",
-                                                                                                                                                                  ifelse(pc[,2] == "Forest_Interior_1", "mature",
-                                                                                                                                                                         ifelse(pc[,2] == "Forest_Interior_2", "mature",
-                                                                                                                                                                                ifelse(pc[,2] == "Forest_Interior_3", "mature",
-                                                                                                                                                                                       ifelse(pc[,2] == "Forest_Edge_1", "edge",
-                                                                                                                                                                                              ifelse(pc[,2] == "Forest_Edge_2", "edge",
-                                                                                                                                                                                                     ifelse(pc[,2] == "Forest_Edge_3", "edge",
+pointCount$category <- ifelse(pointCount[,2] == "Original_y25_1", "y25",
+                      ifelse(pointCount[,2] == "Original_y25_2","y25",
+                             ifelse(pointCount[,2] == "Original_y25_3","y25",
+                                    ifelse(pointCount[,2] == "Original_y25_4","y25",
+                                           ifelse(pointCount[,2] == "Church_y15_3", "y15",
+                                                  ifelse(pointCount[,2] == "Church_y15_2", "y15",
+                                                         ifelse(pointCount[,2] == "Triangle_y15_2", "y15",
+                                                                ifelse(pointCount[,2] == "Triangle_y15_1", "y15",
+                                                                       ifelse(pointCount[,2] == "Triangle_y7_2", "y7",
+                                                                              ifelse(pointCount[,2] == "Triangle_y7_1", "y7",
+                                                                                     ifelse(pointCount[,2] == "Fox_Den_y7_2", "y7",      
+                                                                                            ifelse(pointCount[,2] == "Fox_Den_y5_1", "y5", 
+                                                                                                   ifelse(pointCount[,2] == "Fox_Den_y5_2", "y5", 
+                                                                                                          ifelse(pointCount[,2] == "Fox_Den_y5_3", "y5",       
+                                                                                                                 ifelse(pointCount[,2] == "Fox_Den_y3_1", "y3",    
+                                                                                                                        ifelse(pointCount[,2] == "Fox_Den_y3_2", "y3",   
+                                                                                                                               ifelse(pointCount[,2] == "Fox_Den_y3_3", "y3",  
+                                                                                                                                      ifelse(pointCount[,2] == "Fox_Den_y3_4", "y3",
+                                                                                                                                             ifelse(pointCount[,2] == "Mowed_y0_3", "y0",
+                                                                                                                                                    ifelse(pointCount[,2] == "Mowed_y0_4", "y0",
+                                                                                                                                                           ifelse(pointCount[,2] == "Fox_Den_y0_1", "y0",
+                                                                                                                                                                  ifelse(pointCount[,2] == "Forest_Interior_1", "mature",
+                                                                                                                                                                         ifelse(pointCount[,2] == "Forest_Interior_2", "mature",
+                                                                                                                                                                                ifelse(pointCount[,2] == "Forest_Interior_3", "mature",
+                                                                                                                                                                                       ifelse(pointCount[,2] == "Forest_Edge_1", "edge",
+                                                                                                                                                                                              ifelse(pointCount[,2] == "Forest_Edge_2", "edge",
+                                                                                                                                                                                                     ifelse(pointCount[,2] == "Forest_Edge_3", "edge",
                                                                                                                                                                                                             
                                                                                                                                                                                                             NA  )))))))))))))))))))))))))))
 
-str(pc) 
+str(pointCount) 
 
 #CREATE NEW COLUMN WITH MONTH DATA
 
-pc$date.char <- as.character(pc$DATE)
-pc$date.char.sub <-substr(pc$date.char,0,2)
-pc$month <- ifelse(pc$date.char.sub == "9/", "sep",
-                   ifelse(pc$date.char.sub == "10", "oct",
-                          ifelse(pc$date.char.sub == "11", "nov",
+pointCount$date.char <- as.character(pointCount$DATE)
+pointCount$date.char.sub <-substr(pointCount$date.char,0,2)
+pointCount$month <- ifelse(pointCount$date.char.sub == "9/", "sep",
+                   ifelse(pointCount$date.char.sub == "10", "oct",
+                          ifelse(pointCount$date.char.sub == "11", "nov",
                                  NA)))
-pc$date.char <- NULL
-pc$date.char.sub <- NULL
+pointCount$date.char <- NULL
+pointCount$date.char.sub <- NULL
 
 
 #combine all 0-11 m and 11-25m observations to make a better half normal function and even distance breaks
 
-pc$dist.band.num <- ifelse(pc$Distance.Band == "0-10 m", "1",
-                           ifelse(pc$Distance.Band == "11-25 m", "1",
-                                  ifelse(pc$Distance.Band == "25-50 m", "2",
-                                         ifelse(pc$Distance.Band == ">50 m", "3",
-                                                ifelse(pc$Distance.Band == "FO", "4",
+pointCount$dist.band.num <- ifelse(pointCount$Distance.Band == "0-10 m", "1",
+                           ifelse(pointCount$Distance.Band == "11-25 m", "1",
+                                  ifelse(pointCount$Distance.Band == "25-50 m", "2",
+                                         ifelse(pointCount$Distance.Band == ">50 m", "3",
+                                                ifelse(pointCount$Distance.Band == "FO", "4",
                                                        NA)))))
 
 ##Create another column with month and category as a unique identifier
 
-pc$block_id <- paste(pc$category, pc$month, sep='_')
+pointCount$block_id <- paste(pointCount$category, pointCount$month, sep='_')
 
 ##create one more category to identify unique surveys
 
-pc$survey_id <- paste(pc$Point.Name, pc$DATE, sep='_')
+pointCount$survey_id <- paste(pointCount$Point.Name, pointCount$DATE, sep='_')
 
 
 ###Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
 
 #make a data frame wit the covariates
 
-det.covs <- pc[,c(4:8,23:25,27:28)]
+det.covs <- pointCount[,c(4:8,23:25,27:28)]
 
 det.covs.dd = det.covs[!duplicated(det.covs), ]
 
-#pc.all will be all species using the area
+#pointCount.all will be all species using the area
 
-pc.all <- pc
+pointCount.all <- pointCount
 
 
 #melt count data
-data.count.melt <- melt(pc.all, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
+data.count.melt <- melt(pointCount.all, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
 
 
 ###Cast count data using the sum of all sparrows seen 
