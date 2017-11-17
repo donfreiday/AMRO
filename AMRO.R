@@ -12,167 +12,167 @@ library(ggplot2)
 
 setwd("C:/Users/Don/projects/AMRO")
 
-pointCount <- read.csv('PC_DATA_16.csv', header=TRUE)
+point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
 
 # Get rid of surveys from points with no planting or no maintenance due to not enough survey points
 # Note for Don: in R, & is a vectorized operator. &&  form evaluates left to right examining only the first element of each vector.
-pointCount <- subset(pointCount, pointCount[,2] != "Maintenance_No_Planting"  & pointCount[,2] != "No_Planting_No_Maintenance", drop=T)
+point.count <- subset(point.count, point.count[,2] != "Maintenance_No_Planting"  & point.count[,2] != "No_Planting_No_Maintenance", drop=T)
 
 # Create a column for age value and fill it
-pointCount$age <- 
-  ifelse(pointCount[, 2] == "Original_y25_1", 25,
-  ifelse(pointCount[, 2] == "Original_y25_2", 25,
-  ifelse(pointCount[, 2] == "Original_y25_3", 25,
-  ifelse(pointCount[, 2] == "Original_y25_4", 25,
-  ifelse(pointCount[, 2] == "Church_y15_3", 15,
-  ifelse(pointCount[, 2] == "Church_y15_2", 15,
-  ifelse(pointCount[, 2] == "Triangle_y15_2", 15,
-  ifelse(pointCount[, 2] == "Triangle_y15_1", 15,
-  ifelse(pointCount[, 2] == "Triangle_y7_2", 7,
-  ifelse(pointCount[, 2] == "Triangle_y7_1", 7,
-  ifelse(pointCount[, 2] == "Fox_Den_y7_2", 7,
-  ifelse(pointCount[, 2] == "Fox_Den_y5_1", 5,
-  ifelse(pointCount[, 2] == "Fox_Den_y5_2", 5,
-  ifelse(pointCount[, 2] == "Fox_Den_y5_3", 5,
-  ifelse(pointCount[, 2] == "Fox_Den_y3_1", 3,
-  ifelse(pointCount[, 2] == "Fox_Den_y3_2", 3,
-  ifelse(pointCount[, 2] == "Fox_Den_y3_3", 3,
-  ifelse(pointCount[, 2] == "Fox_Den_y3_4", 3,
-  ifelse(pointCount[, 2] == "Mowed_y0_3", 0,
-  ifelse(pointCount[, 2] == "Mowed_y0_4", 0,
-  ifelse(pointCount[, 2] == "Fox_Den_y0_1", 0,NA)))))))))))))))))))))
+point.count$age <- 
+  ifelse(point.count[, 2] == "Original_y25_1", 25,
+  ifelse(point.count[, 2] == "Original_y25_2", 25,
+  ifelse(point.count[, 2] == "Original_y25_3", 25,
+  ifelse(point.count[, 2] == "Original_y25_4", 25,
+  ifelse(point.count[, 2] == "Church_y15_3", 15,
+  ifelse(point.count[, 2] == "Church_y15_2", 15,
+  ifelse(point.count[, 2] == "Triangle_y15_2", 15,
+  ifelse(point.count[, 2] == "Triangle_y15_1", 15,
+  ifelse(point.count[, 2] == "Triangle_y7_2", 7,
+  ifelse(point.count[, 2] == "Triangle_y7_1", 7,
+  ifelse(point.count[, 2] == "Fox_Den_y7_2", 7,
+  ifelse(point.count[, 2] == "Fox_Den_y5_1", 5,
+  ifelse(point.count[, 2] == "Fox_Den_y5_2", 5,
+  ifelse(point.count[, 2] == "Fox_Den_y5_3", 5,
+  ifelse(point.count[, 2] == "Fox_Den_y3_1", 3,
+  ifelse(point.count[, 2] == "Fox_Den_y3_2", 3,
+  ifelse(point.count[, 2] == "Fox_Den_y3_3", 3,
+  ifelse(point.count[, 2] == "Fox_Den_y3_4", 3,
+  ifelse(point.count[, 2] == "Mowed_y0_3", 0,
+  ifelse(point.count[, 2] == "Mowed_y0_4", 0,
+  ifelse(point.count[, 2] == "Fox_Den_y0_1", 0,NA)))))))))))))))))))))
 
 # Create a column called category based on the age of tree, which will be used as the block for analysis
-pointCount$category <-
+point.count$category <-
   ifelse(
-    pointCount[, 2] == "Original_y25_1",
+    point.count[, 2] == "Original_y25_1",
     "y25",
     ifelse(
-      pointCount[, 2] == "Original_y25_2",
+      point.count[, 2] == "Original_y25_2",
       "y25",
       ifelse(
-        pointCount[, 2] == "Original_y25_3",
+        point.count[, 2] == "Original_y25_3",
         "y25",
         ifelse(
-          pointCount[, 2] == "Original_y25_4",
+          point.count[, 2] == "Original_y25_4",
           "y25",
           ifelse(
-            pointCount[, 2] == "Church_y15_3",
+            point.count[, 2] == "Church_y15_3",
             "y15",
             ifelse(
-              pointCount[, 2] == "Church_y15_2",
+              point.count[, 2] == "Church_y15_2",
               "y15",
               ifelse(
-                pointCount[, 2] == "Triangle_y15_2",
+                point.count[, 2] == "Triangle_y15_2",
                 "y15",
                 ifelse(
-                  pointCount[, 2] == "Triangle_y15_1",
+                  point.count[, 2] == "Triangle_y15_1",
                   "y15",
                   ifelse(
-                    pointCount[, 2] == "Triangle_y7_2",
+                    point.count[, 2] == "Triangle_y7_2",
                     "y7",
                     ifelse(
-                      pointCount[, 2] == "Triangle_y7_1",
+                      point.count[, 2] == "Triangle_y7_1",
                       "y7",
                       ifelse(
-                        pointCount[, 2] == "Fox_Den_y7_2",
+                        point.count[, 2] == "Fox_Den_y7_2",
                         "y7",
                         ifelse(
-                          pointCount[, 2] == "Fox_Den_y5_1",
+                          point.count[, 2] == "Fox_Den_y5_1",
                           "y5",
                           ifelse(
-                            pointCount[, 2] == "Fox_Den_y5_2",
+                            point.count[, 2] == "Fox_Den_y5_2",
                             "y5",
                             ifelse(
-                              pointCount[, 2] == "Fox_Den_y5_3",
+                              point.count[, 2] == "Fox_Den_y5_3",
                               "y5",
                               ifelse(
-                                pointCount[, 2] == "Fox_Den_y3_1",
+                                point.count[, 2] == "Fox_Den_y3_1",
                                 "y3",
                                 ifelse(
-                                  pointCount[, 2] == "Fox_Den_y3_2",
+                                  point.count[, 2] == "Fox_Den_y3_2",
                                   "y3",
                                   ifelse(
-                                    pointCount[, 2] == "Fox_Den_y3_3",
+                                    point.count[, 2] == "Fox_Den_y3_3",
                                     "y3",
                                     ifelse(
-                                      pointCount[, 2] == "Fox_Den_y3_4",
+                                      point.count[, 2] == "Fox_Den_y3_4",
                                       "y3",
                                       ifelse(
-                                        pointCount[, 2] == "Mowed_y0_3",
+                                        point.count[, 2] == "Mowed_y0_3",
                                         "y0",
                                         ifelse(
-                                          pointCount[, 2] == "Mowed_y0_4",
+                                          point.count[, 2] == "Mowed_y0_4",
                                           "y0",
                                           ifelse(
-                                            pointCount[, 2] == "Fox_Den_y0_1",
+                                            point.count[, 2] == "Fox_Den_y0_1",
                                             "y0",
                                             ifelse(
-                                              pointCount[, 2] == "Forest_Interior_1",
+                                              point.count[, 2] == "Forest_Interior_1",
                                               "mature",
                                               ifelse(
-                                                pointCount[, 2] == "Forest_Interior_2",
+                                                point.count[, 2] == "Forest_Interior_2",
                                                 "mature",
                                                 ifelse(
-                                                  pointCount[, 2] == "Forest_Interior_3",
+                                                  point.count[, 2] == "Forest_Interior_3",
                                                   "mature",
                                                   ifelse(
-                                                    pointCount[, 2] == "Forest_Edge_1",
+                                                    point.count[, 2] == "Forest_Edge_1",
                                                     "edge",
                                                     ifelse(
-                                                      pointCount[, 2] == "Forest_Edge_2",
+                                                      point.count[, 2] == "Forest_Edge_2",
                                                       "edge",
-                                                      ifelse(pointCount[, 2] == "Forest_Edge_3", "edge",
+                                                      ifelse(point.count[, 2] == "Forest_Edge_3", "edge",
                                                              
                                                              NA  )))))))))))))))))))))))))))
 
 # Note for Don: str(foo) displays a compact form of the object
-str(pointCount) 
+str(point.count) 
 
 # Create a column with month data
-pointCount$date.char <- as.character(pointCount$DATE)
-pointCount$date.char.sub <- substr(pointCount$date.char, 0, 2)
-pointCount$month <- ifelse(
-  pointCount$date.char.sub == "9/",
+point.count$date.char <- as.character(point.count$DATE)
+point.count$date.char.sub <- substr(point.count$date.char, 0, 2)
+point.count$month <- ifelse(
+  point.count$date.char.sub == "9/",
   "sep",
   ifelse(
-    pointCount$date.char.sub == "10",
+    point.count$date.char.sub == "10",
     "oct",
-    ifelse(pointCount$date.char.sub == "11", "nov",
+    ifelse(point.count$date.char.sub == "11", "nov",
            NA)
   )
 )
-pointCount$date.char <- NULL
-pointCount$date.char.sub <- NULL
+point.count$date.char <- NULL
+point.count$date.char.sub <- NULL
 
 
 # Combine all 0-11 m and 11-25m observations to make a better half normal function and even distance breaks
-pointCount$dist.band.num <- ifelse(pointCount$Distance.Band == "0-10 m", "1",
-                           ifelse(pointCount$Distance.Band == "11-25 m", "1",
-                                  ifelse(pointCount$Distance.Band == "25-50 m", "2",
-                                         ifelse(pointCount$Distance.Band == ">50 m", "3",
-                                                ifelse(pointCount$Distance.Band == "FO", "4",
+point.count$dist.band.num <- ifelse(point.count$Distance.Band == "0-10 m", "1",
+                           ifelse(point.count$Distance.Band == "11-25 m", "1",
+                                  ifelse(point.count$Distance.Band == "25-50 m", "2",
+                                         ifelse(point.count$Distance.Band == ">50 m", "3",
+                                                ifelse(point.count$Distance.Band == "FO", "4",
                                                        NA)))))
 
 # Create another column with month and category as a unique identifier
-pointCount$block_id <- paste(pointCount$category, pointCount$month, sep='_')
+point.count$block_id <- paste(point.count$category, point.count$month, sep='_')
 
 # create one more category to identify unique surveys
-pointCount$survey_id <- paste(pointCount$Point.Name, pointCount$DATE, sep='_')
+point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, sep='_')
 
 # Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
 
 # Make a data frame wit the covariates
-det.covs <- pointCount[,c(4:8,23:25,27:28)]
+det.covs <- point.count[,c(4:8,23:25,27:28)]
 det.covs.dd = det.covs[!duplicated(det.covs), ]
 
-# pointCount.all will be all species using the area
-# pointCount is never referenced again after this, as such creating variable pointCount.all can be omitted without ill effect
-# pointCount.all <- pointCount
+# point.count.all will be all species using the area
+# point.count is never referenced again after this, as such creating variable point.count.all can be omitted without ill effect
+# point.count.all <- point.count
 
 
 #melt count data
-data.count.melt <- melt(pointCount, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
+data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
 
 
 ###Cast count data using the sum of all sparrows seen 
