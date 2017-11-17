@@ -42,9 +42,7 @@ pointCount$age <- ifelse(pointCount[,2] == "Original_y25_1", 25,
                                                                                                                                                       ifelse(pointCount[,2] == "Fox_Den_y0_1", 0,
                                                                                                                                                              
                                                                                                                                                              NA  )))))))))))))))))))))
-
-#now create a new column called category based on the age of tree, which will be used as the block for analysis
-
+# Create a column called category based on the age of tree, which will be used as the block for analysis
 pointCount$category <- ifelse(pointCount[,2] == "Original_y25_1", "y25",
                       ifelse(pointCount[,2] == "Original_y25_2","y25",
                              ifelse(pointCount[,2] == "Original_y25_3","y25",
@@ -74,10 +72,10 @@ pointCount$category <- ifelse(pointCount[,2] == "Original_y25_1", "y25",
                                                                                                                                                                                                      ifelse(pointCount[,2] == "Forest_Edge_3", "edge",
                                                                                                                                                                                                             
                                                                                                                                                                                                             NA  )))))))))))))))))))))))))))
-
+# Note for Don: str(foo) displays a compact form of the object
 str(pointCount) 
 
-#CREATE NEW COLUMN WITH MONTH DATA
+# Create a column with month data
 
 pointCount$date.char <- as.character(pointCount$DATE)
 pointCount$date.char.sub <-substr(pointCount$date.char,0,2)
