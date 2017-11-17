@@ -125,23 +125,28 @@ pointCount$category <-
                                                       ifelse(pointCount[, 2] == "Forest_Edge_3", "edge",
                                                              
                                                              NA  )))))))))))))))))))))))))))
+
 # Note for Don: str(foo) displays a compact form of the object
 str(pointCount) 
 
 # Create a column with month data
-
 pointCount$date.char <- as.character(pointCount$DATE)
-pointCount$date.char.sub <-substr(pointCount$date.char,0,2)
-pointCount$month <- ifelse(pointCount$date.char.sub == "9/", "sep",
-                   ifelse(pointCount$date.char.sub == "10", "oct",
-                          ifelse(pointCount$date.char.sub == "11", "nov",
-                                 NA)))
+pointCount$date.char.sub <- substr(pointCount$date.char, 0, 2)
+pointCount$month <- ifelse(
+  pointCount$date.char.sub == "9/",
+  "sep",
+  ifelse(
+    pointCount$date.char.sub == "10",
+    "oct",
+    ifelse(pointCount$date.char.sub == "11", "nov",
+           NA)
+  )
+)
 pointCount$date.char <- NULL
 pointCount$date.char.sub <- NULL
 
 
-#combine all 0-11 m and 11-25m observations to make a better half normal function and even distance breaks
-
+# Combine all 0-11 m and 11-25m observations to make a better half normal function and even distance breaks
 pointCount$dist.band.num <- ifelse(pointCount$Distance.Band == "0-10 m", "1",
                            ifelse(pointCount$Distance.Band == "11-25 m", "1",
                                   ifelse(pointCount$Distance.Band == "25-50 m", "2",
@@ -149,30 +154,25 @@ pointCount$dist.band.num <- ifelse(pointCount$Distance.Band == "0-10 m", "1",
                                                 ifelse(pointCount$Distance.Band == "FO", "4",
                                                        NA)))))
 
-##Create another column with month and category as a unique identifier
-
+# Create another column with month and category as a unique identifier
 pointCount$block_id <- paste(pointCount$category, pointCount$month, sep='_')
 
-##create one more category to identify unique surveys
-
+# create one more category to identify unique surveys
 pointCount$survey_id <- paste(pointCount$Point.Name, pointCount$DATE, sep='_')
 
+# Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
 
-###Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
-
-#make a data frame wit the covariates
-
+# Make a data frame wit the covariates
 det.covs <- pointCount[,c(4:8,23:25,27:28)]
-
 det.covs.dd = det.covs[!duplicated(det.covs), ]
 
-#pointCount.all will be all species using the area
-
-pointCount.all <- pointCount
+# pointCount.all will be all species using the area
+# pointCount is never referenced again after this, as such creating variable pointCount.all can be omitted without ill effect
+# pointCount.all <- pointCount
 
 
 #melt count data
-data.count.melt <- melt(pointCount.all, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
+data.count.melt <- melt(pointCount, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
 
 
 ###Cast count data using the sum of all sparrows seen 
