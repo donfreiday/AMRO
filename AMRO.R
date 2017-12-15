@@ -12,8 +12,9 @@ library(ggplot2)
 
 setwd("C:/Users/Don/projects/AMRO")
 
+
 # Analysis will be performed on each of these species codes via for loop
-species.codes <- c("AMRO", "VEER", "WOTH", "EABL", "SAVS", "SWSP", "FOSP");
+species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "FOSP");
 
 # This for loop is an example for Tim
 for(species in species.codes) {
