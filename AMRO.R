@@ -184,7 +184,7 @@ data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id
 
 
 ###Cast count data using the sum of all sparrows seen 
-
+# todo: Use species variable instead of string literal
 count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, fun.aggregate=sum, subset = .((Species.Code == "AMRO" ))) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
 count.data[,4] <- NULL
 
@@ -393,7 +393,7 @@ all.birds.mature.nov.umf <- unmarkedFrameDS(y=as.matrix(all.birds.mature.nov[,11
 
 
 #####Now read in the results data and make some graphs
-
+# todo: where is "AMRO Results.csv" generated? We need to automate this so it can be "<species> Results.csv"
 all.birds.results <- read.csv("AMRO Results.csv")
 
 ## add and manipulate data for better visualization
@@ -411,6 +411,7 @@ levels(all.birds.results$block_id)
 
 ##Now plot with ggplot2
 
+# todo: title for ggplot from species variable, rather than string literal
 p <- ggplot(data = all.birds.results, aes(x = category, y = Density, fill= month)) +
   geom_bar( stat="identity", color = "black", position=position_dodge() )+
   geom_errorbar(stat="identity", aes(x = category, ymin=Density-X95.ci, ymax=Density+X95.ci), width=.2,
