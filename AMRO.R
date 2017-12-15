@@ -170,10 +170,10 @@ point.count$dist.band.num <- ifelse(point.count$Distance.Band == "0-10 m", "1",
                                                        NA)))))
 
 # Create another column with month and category as a unique identifier
-point.count$block_id <- paste(point.count$category, point.count$month, September='_')
+point.count$block_id <- paste(point.count$category, point.count$month, sep='_')
 
 # create one more category to identify unique surveys
-point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, September='_')
+point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, sep='_')
 
 # Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
 
