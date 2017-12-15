@@ -20,6 +20,12 @@ for(species in species.codes) {
   cat(species, "\n")
 }
 
+# This function is an example for Tim
+println <- function(string) {
+  cat(string, "\n")
+}
+println(species)
+
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
 
 # Get rid of surveys from points with no planting or no maintenance due to not enough survey points
