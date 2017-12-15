@@ -149,11 +149,11 @@ point.count$date.char <- as.character(point.count$DATE)
 point.count$date.char.sub <- substr(point.count$date.char, 0, 2)
 point.count$month <- ifelse(
   point.count$date.char.sub == "9/",
-  "sep",
+  "September",
   ifelse(
     point.count$date.char.sub == "10",
-    "oct",
-    ifelse(point.count$date.char.sub == "11", "nov",
+    "October",
+    ifelse(point.count$date.char.sub == "11", "November",
            NA)
   )
 )
