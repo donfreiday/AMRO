@@ -193,7 +193,8 @@ data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id
 ###Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
 count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, fun.aggregate=sum, subset = .((Species.Code == "AMRO" ))) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
-count.data[,4] <- NULL
+count.data[,4:5] <- NULL
+
 
 all.birds <- merge(det.covs.dd, count.data, by= "survey_id", all=T)
 all.birds[is.na(all.birds)] <- 0
