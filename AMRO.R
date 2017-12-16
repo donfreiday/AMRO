@@ -243,13 +243,18 @@ all.birds.mature.November <- subset(all.birds, all.birds$block_id == "mature_Nov
 #   
 # }
 
+
 ######Cat y0
 
 
 all.birds.y0.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y0.September[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y0.September[,3:6])),
+                                        siteCovs=data.frame(all.birds.y0.September[,3:10]),
                                         dist.breaks=c(0,25,50), unitsIn="m", survey="point")
 (fm1.all.birds.y0.September <- distsamp(~1 ~1, all.birds.y0.September.umf))
+density.estimate <- predict(fm1.all.birds.y0.September, type="state", appendData=TRUE)
+density.estimate[,5:10] <- NULL
+density.estimate <- density.estimate[1,]
+density.estimate$age.month <- "y0.September"
 
 all.birds.y0.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y0.October[,11:12]),
                                         siteCovs=data.frame(scale(all.birds.y0.October[,3:6])),
@@ -350,6 +355,7 @@ all.birds.y25.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y25.Septemb
                                          siteCovs=data.frame(scale(all.birds.y25.September[,3:6])),
                                          dist.breaks=c(0,25,50), unitsIn="m", survey="point")
 (fm1.all.birds.y25.September <- distsamp(~1 ~1, all.birds.y25.September.umf))
+
 
 all.birds.y25.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y25.October[,11:12]),
                                          siteCovs=data.frame(scale(all.birds.y25.October[,3:6])),
