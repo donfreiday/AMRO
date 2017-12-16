@@ -254,7 +254,7 @@ all.birds.y0.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y0.September
 density.estimate <- predict(fm1.all.birds.y0.September, type="state", appendData=TRUE)
 density.estimate[,5:10] <- NULL
 density.estimate <- density.estimate[1,]
-density.estimate$age.month <- "y0.September"
+
 
 all.birds.y0.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y0.October[,11:12]),
                                         siteCovs=data.frame(scale(all.birds.y0.October[,3:6])),
