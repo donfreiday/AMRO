@@ -10,7 +10,7 @@ library(reshape2)
 library(ggplot2)
 # library(plyr) # plyr is included as a dependency in package unmarked.
 
-setwd("C:/Users/Don/projects/AMRO")
+setwd("~/projects/AMRO")
 
 
 # Analysis will be performed on each of these species codes via for loop
@@ -179,7 +179,7 @@ point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, sep='_'
 
 # Make a data frame with the covariates and de-duplicate
 det.covs <- point.count[,c(4:8,23:25,27:28)]
-det.covs.dd = det.covs[!duplicated(det.covs), ]
+det.covs <- det.covs[!duplicated(det.covs), ]
 
 # point.count.all will be all species using the area
 # point.count is never referenced again after this, as such creating variable point.count.all can be omitted without ill effect
@@ -196,7 +196,7 @@ count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, fun.aggregate=su
 count.data[,4:5] <- NULL
 
 
-all.birds <- merge(det.covs.dd, count.data, by= "survey_id", all=T)
+all.birds <- merge(det.covs, count.data, by= "survey_id", all=T)
 all.birds[is.na(all.birds)] <- 0
 
 all.birds.y0.September <- subset(all.birds, all.birds$block_id == "y0_September")
