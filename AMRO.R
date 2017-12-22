@@ -8,7 +8,7 @@ rm(list = ls(all.names = TRUE))
 library(unmarked)
 library(reshape2)
 library(ggplot2)
-# library(plyr) # plyr is included as a dependency in package unmarked.
+library(plyr) 
 
 setwd("~/projects/AMRO")
 
@@ -178,6 +178,7 @@ point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, sep='_'
 # Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
 
 # Make a data frame with the covariates and de-duplicate
+# todo: we never reference this variable again
 det.covs <- point.count[,c(4:8,23:25,27:28)]
 det.covs <- det.covs[!duplicated(det.covs), ]
 
@@ -185,16 +186,15 @@ det.covs <- det.covs[!duplicated(det.covs), ]
 # point.count is never referenced again after this, as such creating variable point.count.all can be omitted without ill effect
 # point.count.all <- point.count
 
-
 #melt count data
 data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
 
-
 ###Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
-count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, fun.aggregate=sum, subset = .((Species.Code == "AMRO" ))) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
+# Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
+# Reshape2 https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
+count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == "AMRO" )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
 count.data[,4:5] <- NULL
-
 
 all.birds <- merge(det.covs, count.data, by= "survey_id", all=T)
 all.birds[is.na(all.birds)] <- 0
