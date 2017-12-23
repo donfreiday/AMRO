@@ -178,7 +178,6 @@ point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, sep='_'
 # Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
 
 # Make a data frame with the covariates and de-duplicate
-# todo: we never reference this variable again
 det.covs <- point.count[,c(4:8,23:25,27:28)]
 det.covs <- det.covs[!duplicated(det.covs), ]
 
