@@ -240,12 +240,6 @@ output$block_id <- as.factor(output$block_id )
 output$block_id <- factor(output$block_id, levels = c("y0_September", "y0_October", "y0_November", "y3_September", "y3_October", "y3_November", "y5_September", "y5_October", "y5_November", "y7_September", "y7_October", "y7_November", "y15_September", "y15_October", "y15_November", "y25_September", "y25_October", "y25_November", "edge_September", "edge_October", "edge_November", "mature_September", "mature_October", "mature_November") )
 levels(output$block_id)
 
-# output$block_id <- as.character(output$block_id)
-# output$category <- as.character(output$category)
-# output$month <- as.character(output$month)
-# output$upper <- as.numeric(as.character(output$upper))
-# output$lower <- as.numeric(as.character(output$lower))
-
 write.csv(output, paste("./", species, " Results.csv"))
 
 # todo: title for ggplot from species variable, rather than string literal
