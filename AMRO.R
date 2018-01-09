@@ -257,6 +257,8 @@ p <- ggplot(output,
             labs(x="Category",y="Density (birds/Ha)")
 
  p + scale_fill_manual(values=c('darkgreen','gold', 'firebrick1'))
-
+ 
+ggsave(p, file=paste("./", species, ".png", sep=''), scale=2)
+                         
 }
 
