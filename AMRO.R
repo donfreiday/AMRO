@@ -242,7 +242,6 @@ levels(output$block_id)
 
 write.csv(output, paste("./", species, " Results.csv"))
 
-# todo: title for ggplot from species variable, rather than string literal
 p <- ggplot(output, 
             aes(x = category, y = Predicted, fill= month)) +
             geom_bar( stat="identity", color = "black", position=position_dodge() ) +
