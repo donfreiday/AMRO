@@ -246,7 +246,7 @@ levels(output$block_id)
 # output$upper <- as.numeric(as.character(output$upper))
 # output$lower <- as.numeric(as.character(output$lower))
 
-
+write.csv(output, paste("./", species, " Results.csv"))
 
 # todo: title for ggplot from species variable, rather than string literal
 p <- ggplot(output, 
