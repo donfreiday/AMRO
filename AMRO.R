@@ -212,15 +212,22 @@ all.birds.umf <- unmarkedFrameDS(y=as.matrix(all.birds[,11:12]),
 (fm1.all.birds <- distsamp(~1 ~block_id, all.birds.umf))
 
 output <- predict(fm1.all.birds, "state", appendData=TRUE)
+output[,"Species"] <- species
+
+# Set months with no data to zero
+# todo: this better
+for (i in 1:4) {
+  output[, i] <- ifelse(output$lower==0, 0, output[, i])
+}
 
 #####Now read in the results data and make some graphs
 # todo: where is "AMRO Results.csv" generated? We need to automate this so it can be "<species> Results.csv"
-all.birds.results <- read.csv("AMRO Results.csv")
+# all.birds.results <- read.csv("AMRO Results.csv")
 
 ## add and manipulate data for better visualization
 
-all.birds.results <- merge(all.birds.results, all.birds, by="block_id")
-all.birds.results[,c(13:20,23:26)] <- NULL
+# all.birds.results <- merge(all.birds.results, all.birds, by="block_id")
+# all.birds.results[,c(13:20,23:26)] <- NULL
 all.birds.results = all.birds.results[!duplicated(all.birds.results), ]
 all.birds.results$month <- as.factor(all.birds.results$month) 
 all.birds.results$month <- factor(all.birds.results$month, levels = rev(levels(all.birds.results$month)))
