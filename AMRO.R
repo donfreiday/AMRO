@@ -14,7 +14,7 @@ setwd("~/projects/AMRO")
 
 
 # Analysis will be performed on each of these species codes via for loop
-species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "FOSP");
+species.codes <- c("FOSP", "EABL", "AMRO", "SAVS", "SWSP");
 
 #####################################
 # # This for loop is an example for Tim
@@ -217,7 +217,7 @@ output[,"Species"] <- species
 # Set months with no data to zero
 # todo: this better
 for (i in 1:4) {
-  output[, i] <- ifelse(output$lower==0, 0, output[, i])
+  output[, i] <- ifelse(output$Predicted < 0.0001, 0, output[, i])
 }
 
 # Keep only abundance data, removing site covariates removing duplicate rows for display purposes.
