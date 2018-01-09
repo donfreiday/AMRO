@@ -230,17 +230,34 @@ output <- output[!duplicated(output), ]
 output$category <- lapply(strsplit(output$block_id, "_"), `[`, 1)
 output$month <- lapply(strsplit(output$block_id, "_"), `[`, 2)
 
+# Manually setting ggplot levels to order by month and category for plotting
+# Unlist is necessary because strsplit was used to create month and category columns
+output$month <- as.factor(unlist(output$month))
+output$month <- factor(output$month, levels = rev(levels(output$month)))
+output$category <- as.factor(unlist(output$category))
+output$category <- factor(output$category, levels = c( "y0", "y3", "y5", "y7", "y15", "y25", "edge", "mature"))
+output$block_id <- as.factor(output$block_id )
+output$block_id <- factor(output$block_id, levels = c("y0_September", "y0_October", "y0_November", "y3_September", "y3_October", "y3_November", "y5_September", "y5_October", "y5_November", "y7_September", "y7_October", "y7_November", "y15_September", "y15_October", "y15_November", "y25_September", "y25_October", "y25_November", "edge_September", "edge_October", "edge_November", "mature_September", "mature_October", "mature_November") )
+levels(output$block_id)
+
+output$block_id <- as.character(output$block_id)
+output$category <- as.character(output$category)
+output$month <- as.character(output$month)
+output$upper <- as.numeric(as.character(output$upper))
+output$lower <- as.numeric(as.character(output$lower))
+
+
 ##Now plot with ggplot2
 
 # todo: title for ggplot from species variable, rather than string literal
-p <- ggplot(data = all.birds.results, aes(x = category, y = Density, fill= month)) +
+p <- ggplot(output, aes(x = category, y = Predicted, fill= month)) +
   geom_bar( stat="identity", color = "black", position=position_dodge() )+
-  geom_errorbar(stat="identity", aes(x = category, ymin=Density-X95.ci, ymax=Density+X95.ci), width=.2,
+  geom_errorbar(stat="identity", aes(x = category, ymin="lower", ymax="upper"), width=.2,
                 position=position_dodge(width = 1) ) +
   ggtitle("Relative Abundance of American Robins Using Areas of Different Tree
           Planting Treatments at Middle Run Valley Park in Fall 2016") +
   labs(x="Category",y="Density (birds/Ha)")
 
-p + scale_fill_manual(values=c('darkgreen','gold', 'firebrick1'))
+ #p + scale_fill_manual(values=c('darkgreen','gold', 'firebrick1'))
 
 }
