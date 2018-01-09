@@ -220,15 +220,12 @@ for (i in 1:4) {
   output[, i] <- ifelse(output$lower==0, 0, output[, i])
 }
 
-#####Now read in the results data and make some graphs
-# todo: where is "AMRO Results.csv" generated? We need to automate this so it can be "<species> Results.csv"
-# all.birds.results <- read.csv("AMRO Results.csv")
+# Keep only abundance data, removing site covariates removing duplicate rows for display purposes.
+output <- output[ , -c(5:10)]
+output <- output[!duplicated(output), ]
 
-## add and manipulate data for better visualization
+# todo: change species code to species name for aesthetic purposes
 
-# all.birds.results <- merge(all.birds.results, all.birds, by="block_id")
-# all.birds.results[,c(13:20,23:26)] <- NULL
-all.birds.results = all.birds.results[!duplicated(all.birds.results), ]
 all.birds.results$month <- as.factor(all.birds.results$month) 
 all.birds.results$month <- factor(all.birds.results$month, levels = rev(levels(all.birds.results$month)))
 all.birds.results$category <- as.factor(all.birds.results$category)
