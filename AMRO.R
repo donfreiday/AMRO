@@ -193,225 +193,25 @@ data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id
 for(species in species.codes) {
   cat("Processing ", species, "\n")
 
-
 ###Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
 # Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
 # Reshape2 https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
 count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == species )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
 
-# 
+# Remove last two distance columns to subset out birds beyond 50 meters
 count.data <- count.data[, -c(4:5)]
 
 all.birds <- merge(det.covs, count.data, by= "survey_id", all=T)
 all.birds[is.na(all.birds)] <- 0
 
-all.birds.y0.September <- subset(all.birds, all.birds$block_id == "y0_September")
-all.birds.y0.October <- subset(all.birds, all.birds$block_id == "y0_October")
-all.birds.y0.November <- subset(all.birds, all.birds$block_id == "y0_November")
-
-all.birds.y3.September <- subset(all.birds, all.birds$block_id == "y3_September")
-all.birds.y3.October <- subset(all.birds, all.birds$block_id == "y3_October")
-all.birds.y3.November <- subset(all.birds, all.birds$block_id == "y3_November")
-
-all.birds.y5.September <- subset(all.birds, all.birds$block_id == "y5_September")
-all.birds.y5.October <- subset(all.birds, all.birds$block_id == "y5_October")
-all.birds.y5.November <- subset(all.birds, all.birds$block_id == "y5_November")
-
-all.birds.y7.September <- subset(all.birds, all.birds$block_id == "y7_September")
-all.birds.y7.October <- subset(all.birds, all.birds$block_id == "y7_October")
-all.birds.y7.November <- subset(all.birds, all.birds$block_id == "y7_November")
-
-all.birds.y15.September <- subset(all.birds, all.birds$block_id == "y15_September")
-all.birds.y15.October <- subset(all.birds, all.birds$block_id == "y15_October")
-all.birds.y15.November <- subset(all.birds, all.birds$block_id == "y15_November")
-
-all.birds.y25.September <- subset(all.birds, all.birds$block_id == "y25_September")
-all.birds.y25.October <- subset(all.birds, all.birds$block_id == "y25_October")
-all.birds.y25.November <- subset(all.birds, all.birds$block_id == "y25_November")
-
-all.birds.y25.September <- subset(all.birds, all.birds$block_id == "y25_September")
-all.birds.y25.October <- subset(all.birds, all.birds$block_id == "y25_October")
-all.birds.y25.November <- subset(all.birds, all.birds$block_id == "y25_November")
-
-all.birds.edge.September <- subset(all.birds, all.birds$block_id == "edge_September")
-all.birds.edge.October <- subset(all.birds, all.birds$block_id == "edge_October")
-all.birds.edge.November <- subset(all.birds, all.birds$block_id == "edge_November")
-
-all.birds.mature.September <- subset(all.birds, all.birds$block_id == "mature_September")
-all.birds.mature.October <- subset(all.birds, all.birds$block_id == "mature_October")
-all.birds.mature.November <- subset(all.birds, all.birds$block_id == "mature_November")
-
-# makeumf <- function(DataIn){ 
-#   
-#   unmarkedFrameDS(y=as.matrix(all.birds.y0.September[,11:12]),
-#                                      siteCovs=data.frame(scale(all.birds.y0.September[,3:6])),
-#                                      dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-#   
-# }
-
-
-######Cat y0
-
-
-all.birds.y0.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y0.September[,11:12]),
-                                        siteCovs=data.frame(all.birds.y0.September[,3:10]),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y0.September <- distsamp(~1 ~1, all.birds.y0.September.umf))
-density.estimate <- predict(fm1.all.birds.y0.September, type="state", appendData=TRUE)
-density.estimate[,5:10] <- NULL
-density.estimate <- density.estimate[1,]
-
-
-all.birds.y0.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y0.October[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y0.October[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y0.October <- distsamp(~1 ~1, all.birds.y0.October.umf))
-
-all.birds.y0.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y0.November[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y0.November[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y0.November <- distsamp(~1 ~1, all.birds.y0.November.umf))
-
-
-
-
-######Cat y3
-
-
-all.birds.y3.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y3.September[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y3.September[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y3.September <- distsamp(~1 ~1, all.birds.y3.September.umf))
-
-all.birds.y3.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y3.October[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y3.October[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y3.October <- distsamp(~1 ~1, all.birds.y3.October.umf))
-
-all.birds.y3.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y3.November[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y3.November[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y3.November <- distsamp(~1 ~1, all.birds.y3.November.umf))
-
-
-
-######Cat y5
-
-
-all.birds.y5.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y5.September[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y5.September[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y5.September <- distsamp(~1 ~1, all.birds.y5.September.umf))
-
-all.birds.y5.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y5.October[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y5.October[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y5.October <- distsamp(~1 ~1, all.birds.y5.October.umf))
-
-all.birds.y5.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y5.November[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y5.November[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y5.November <- distsamp(~1 ~1, all.birds.y5.November.umf))
-
-
-
-######Cat y7
-
-
-all.birds.y7.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y7.September[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y7.September[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y7.September <- distsamp(~1 ~1, all.birds.y7.September.umf))
-
-all.birds.y7.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y7.October[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y7.October[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y7.October <- distsamp(~1 ~1, all.birds.y7.October.umf))
-
-all.birds.y7.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y7.November[,11:12]),
-                                        siteCovs=data.frame(scale(all.birds.y7.November[,3:6])),
-                                        dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y7.November <- distsamp(~1 ~1, all.birds.y7.November.umf))
-
-
-######Cat y15
-
-
-all.birds.y15.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y15.September[,11:12]),
-                                         siteCovs=data.frame(scale(all.birds.y15.September[,3:6])),
-                                         dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y15.September <- distsamp(~1 ~1, all.birds.y15.September.umf))
-
-all.birds.y15.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y15.October[,11:12]),
-                                         siteCovs=data.frame(scale(all.birds.y15.October[,3:6])),
-                                         dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y15.October <- distsamp(~1 ~1, all.birds.y15.October.umf))
-
-all.birds.y15.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y15.November[,11:12]),
-                                         siteCovs=data.frame(scale(all.birds.y15.November[,3:6])),
-                                         dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y15.November <- distsamp(~1 ~1, all.birds.y15.November.umf))
-
-
-
-######Cat y25
-
-
-all.birds.y25.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y25.September[,11:12]),
-                                         siteCovs=data.frame(scale(all.birds.y25.September[,3:6])),
-                                         dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y25.September <- distsamp(~1 ~1, all.birds.y25.September.umf))
-
-
-all.birds.y25.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y25.October[,11:12]),
-                                         siteCovs=data.frame(scale(all.birds.y25.October[,3:6])),
-                                         dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y25.October <- distsamp(~1 ~1, all.birds.y25.October.umf))
-
-all.birds.y25.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.y25.November[,11:12]),
-                                         siteCovs=data.frame(scale(all.birds.y25.November[,3:6])),
-                                         dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.y25.November <- distsamp(~1 ~1, all.birds.y25.November.umf))
-
-
-######Cat edge
-
-
-all.birds.edge.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.edge.September[,11:12]),
-                                          siteCovs=data.frame(scale(all.birds.edge.September[,3:6])),
-                                          dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.edge.September <- distsamp(~1 ~1, all.birds.edge.September.umf))
-
-all.birds.edge.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.edge.October[,11:12]),
-                                          siteCovs=data.frame(scale(all.birds.edge.October[,3:6])),
-                                          dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.edge.October <- distsamp(~1 ~1, all.birds.edge.October.umf))
-
-all.birds.edge.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.edge.November[,11:12]),
-                                          siteCovs=data.frame(scale(all.birds.edge.November[,3:6])),
-                                          dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.edge.November <- distsamp(~1 ~1, all.birds.edge.November.umf))
-
-
-######Cat mature
-
-
-all.birds.mature.September.umf <- unmarkedFrameDS(y=as.matrix(all.birds.mature.September[,11:12]),
-                                            siteCovs=data.frame(scale(all.birds.mature.September[,3:6])),
-                                            dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.mature.September <- distsamp(~1 ~1, all.birds.mature.September.umf))
-
-all.birds.mature.October.umf <- unmarkedFrameDS(y=as.matrix(all.birds.mature.October[,11:12]),
-                                            siteCovs=data.frame(scale(all.birds.mature.October[,3:6])),
-                                            dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.mature.October <- distsamp(~1 ~1, all.birds.mature.October.umf))
-
-all.birds.mature.November.umf <- unmarkedFrameDS(y=as.matrix(all.birds.mature.November[,11:12]),
-                                            siteCovs=data.frame(scale(all.birds.mature.November[,3:6])),
-                                            dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds.mature.November <- distsamp(~1 ~1, all.birds.mature.November.umf))
-
+####Try using block_id in State Variable
+all.birds.umf <- unmarkedFrameDS(y=as.matrix(all.birds[,11:12]),
+                                                 siteCovs=data.frame(all.birds[,c(3:6,10)]),
+                                                 dist.breaks=c(0,25,50), unitsIn="m", survey="point")
+(fm1.all.birds <- distsamp(~1 ~block_id, all.birds.umf))
+
+output <- predict(fm1.all.birds, "state", appendData=TRUE)
 
 #####Now read in the results data and make some graphs
 # todo: where is "AMRO Results.csv" generated? We need to automate this so it can be "<species> Results.csv"
