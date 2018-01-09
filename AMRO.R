@@ -16,16 +16,17 @@ setwd("~/projects/AMRO")
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "FOSP");
 
-# This for loop is an example for Tim
-for(species in species.codes) {
-  cat(species, "\n")
-}
-
-# This function is an example for Tim
-println <- function(string) {
-  cat(string, "\n")
-}
-println(species)
+#####################################
+# # This for loop is an example for Tim
+# for(species in species.codes) {
+#   cat(species, "\n")
+# }
+# # This function is an example for Tim
+# println <- function(string) {
+#   cat(string, "\n")
+# }
+# println(species)
+#####################################
 
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
 
@@ -194,7 +195,7 @@ data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id
 # Reshape2 https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
 count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == "AMRO" )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
 
-# todo: why do we do this again?
+# 
 count.data <- count.data[, -c(4:5)]
 
 all.birds <- merge(det.covs, count.data, by= "survey_id", all=T)
