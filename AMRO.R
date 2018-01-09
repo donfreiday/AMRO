@@ -14,7 +14,7 @@ setwd("~/projects/AMRO")
 
 
 # Analysis will be performed on each of these species codes via for loop
-species.codes <- c("FOSP", "EABL", "AMRO", "SAVS", "SWSP");
+species.codes <- c("AMRO", "EABL", "SAVS", "SWSP");
 
 #####################################
 # # This for loop is an example for Tim
