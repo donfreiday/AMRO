@@ -226,13 +226,9 @@ output <- output[!duplicated(output), ]
 
 # todo: change species code to species name for aesthetic purposes
 
-all.birds.results$month <- as.factor(all.birds.results$month) 
-all.birds.results$month <- factor(all.birds.results$month, levels = rev(levels(all.birds.results$month)))
-all.birds.results$category <- as.factor(all.birds.results$category)
-all.birds.results$category <- factor(all.birds.results$category, levels = c( "y0", "y3", "y5", "y7", "y15", "y25", "edge", "mature"))
-all.birds.results$block_id <- as.factor(all.birds.results$block_id )
-all.birds.results$block_id <- factor(all.birds.results$block_id, levels = c("y0_September", "y0_October", "y0_November", "y3_September", "y3_October", "y3_November", "y5_September", "y5_October", "y5_November", "y7_September", "y7_October", "y7_November", "y15_September", "y15_October", "y15_November", "y25_September", "y25_October", "y25_November", "edge_September", "edge_October", "edge_November", "mature_September", "mature_October", "mature_November") )
-levels(all.birds.results$block_id)
+# Create columns for category and month for display
+output$category <- lapply(strsplit(output$block_id, "_"), `[`, 1)
+output$month <- lapply(strsplit(output$block_id, "_"), `[`, 2)
 
 ##Now plot with ggplot2
 
