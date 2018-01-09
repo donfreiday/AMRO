@@ -250,7 +250,7 @@ p <- ggplot(output,
             ggtitle(paste("Relative Abundance of ", species, " Using Areas of Different Tree Planting Treatments at Middle Run Valley Park in Fall 2016")) +
             labs(x="Category",y="Density (birds/Ha)")
 
- p + scale_fill_manual(values=c('darkgreen','gold', 'firebrick1'))
+ p <- p + scale_fill_manual(values=c('springgreen4','gold', 'firebrick1'))
  
 ggsave(p, file=paste("./", species, ".png", sep=''), scale=2)
                          
