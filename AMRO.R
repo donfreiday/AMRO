@@ -189,11 +189,16 @@ det.covs <- det.covs[!duplicated(det.covs), ]
 #melt count data
 data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
 
+# Iterate over species codes
+for(species in species.codes) {
+  cat("Processing ", species, "\n")
+
+
 ###Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
 # Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
 # Reshape2 https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
-count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == "AMRO" )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
+count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == species )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
 
 # 
 count.data <- count.data[, -c(4:5)]
@@ -438,3 +443,4 @@ p <- ggplot(data = all.birds.results, aes(x = category, y = Density, fill= month
 
 p + scale_fill_manual(values=c('darkgreen','gold', 'firebrick1'))
 
+}
