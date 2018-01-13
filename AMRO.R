@@ -1,7 +1,6 @@
-# https://google.github.io/styleguide/Rguide.xml
+# todo: explain what this program does, create a readme.md
 
-# Remove all variables from the environment. ls() lists variables, rm() removes variables.
-# This won't remove variables beginning with '.', use rm(list = ls(all.names = TRUE)) for that.
+# Remove all variables from the environment.
 rm(list = ls(all.names = TRUE))
 
 # Missing packages can be installed using install.packages("<package>") in the R Console.
