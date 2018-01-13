@@ -56,91 +56,37 @@ point.count$age <-
   ifelse(point.count[, 2] == "Fox_Den_y3_4", 3,
   ifelse(point.count[, 2] == "Mowed_y0_3", 0,
   ifelse(point.count[, 2] == "Mowed_y0_4", 0,
-  ifelse(point.count[, 2] == "Fox_Den_y0_1", 0,NA)))))))))))))))))))))
+  ifelse(point.count[, 2] == "Fox_Den_y0_1", 0, NA)))))))))))))))))))))
 
 # Create a column called category based on the age of tree, which will be used as the block for analysis
 point.count$category <-
-  ifelse(
-    point.count[, 2] == "Original_y25_1",
-    "y25",
-    ifelse(
-      point.count[, 2] == "Original_y25_2",
-      "y25",
-      ifelse(
-        point.count[, 2] == "Original_y25_3",
-        "y25",
-        ifelse(
-          point.count[, 2] == "Original_y25_4",
-          "y25",
-          ifelse(
-            point.count[, 2] == "Church_y15_3",
-            "y15",
-            ifelse(
-              point.count[, 2] == "Church_y15_2",
-              "y15",
-              ifelse(
-                point.count[, 2] == "Triangle_y15_2",
-                "y15",
-                ifelse(
-                  point.count[, 2] == "Triangle_y15_1",
-                  "y15",
-                  ifelse(
-                    point.count[, 2] == "Triangle_y7_2",
-                    "y7",
-                    ifelse(
-                      point.count[, 2] == "Triangle_y7_1",
-                      "y7",
-                      ifelse(
-                        point.count[, 2] == "Fox_Den_y7_2",
-                        "y7",
-                        ifelse(
-                          point.count[, 2] == "Fox_Den_y5_1",
-                          "y5",
-                          ifelse(
-                            point.count[, 2] == "Fox_Den_y5_2",
-                            "y5",
-                            ifelse(
-                              point.count[, 2] == "Fox_Den_y5_3",
-                              "y5",
-                              ifelse(
-                                point.count[, 2] == "Fox_Den_y3_1",
-                                "y3",
-                                ifelse(
-                                  point.count[, 2] == "Fox_Den_y3_2",
-                                  "y3",
-                                  ifelse(
-                                    point.count[, 2] == "Fox_Den_y3_3",
-                                    "y3",
-                                    ifelse(
-                                      point.count[, 2] == "Fox_Den_y3_4",
-                                      "y3",
-                                      ifelse(
-                                        point.count[, 2] == "Mowed_y0_3",
-                                        "y0",
-                                        ifelse(
-                                          point.count[, 2] == "Mowed_y0_4",
-                                          "y0",
-                                          ifelse(
-                                            point.count[, 2] == "Fox_Den_y0_1",
-                                            "y0",
-                                            ifelse(
-                                              point.count[, 2] == "Forest_Interior_1",
-                                              "mature",
-                                              ifelse(
-                                                point.count[, 2] == "Forest_Interior_2",
-                                                "mature",
-                                                ifelse(
-                                                  point.count[, 2] == "Forest_Interior_3",
-                                                  "mature",
-                                                  ifelse(
-                                                    point.count[, 2] == "Forest_Edge_1",
-                                                    "edge",
-                                                    ifelse(
-                                                      point.count[, 2] == "Forest_Edge_2",
-                                                      "edge",
-                                                      ifelse(point.count[, 2] == "Forest_Edge_3", "edge",
-                                                             
-                                                             NA  )))))))))))))))))))))))))))
+  ifelse(point.count[, 2] == "Original_y25_1", "y25",
+  ifelse(point.count[, 2] == "Original_y25_2", "y25",
+  ifelse(point.count[, 2] == "Original_y25_3", "y25",
+  ifelse(point.count[, 2] == "Original_y25_4", "y25",
+  ifelse(point.count[, 2] == "Church_y15_3", "y15",
+  ifelse(point.count[, 2] == "Church_y15_2", "y15",
+  ifelse(point.count[, 2] == "Triangle_y15_2", "y15",
+  ifelse(point.count[, 2] == "Triangle_y15_1", "y15",
+  ifelse(point.count[, 2] == "Triangle_y7_2", "y7",
+  ifelse(point.count[, 2] == "Triangle_y7_1", "y7",
+  ifelse(point.count[, 2] == "Fox_Den_y7_2", "y7",
+  ifelse(point.count[, 2] == "Fox_Den_y5_1", "y5",
+  ifelse(point.count[, 2] == "Fox_Den_y5_2", "y5",
+  ifelse(point.count[, 2] == "Fox_Den_y5_3", "y5",
+  ifelse(point.count[, 2] == "Fox_Den_y3_1", "y3",
+  ifelse(point.count[, 2] == "Fox_Den_y3_2", "y3",
+  ifelse(point.count[, 2] == "Fox_Den_y3_3", "y3",
+  ifelse(point.count[, 2] == "Fox_Den_y3_4", "y3",
+  ifelse(point.count[, 2] == "Mowed_y0_3", "y0",
+  ifelse(point.count[, 2] == "Mowed_y0_4", "y0",
+  ifelse(point.count[, 2] == "Fox_Den_y0_1", "y0",
+  ifelse(point.count[, 2] == "Forest_Interior_1", "mature",
+  ifelse(point.count[, 2] == "Forest_Interior_2", "mature",
+  ifelse(point.count[, 2] == "Forest_Interior_3", "mature",
+  ifelse(point.count[, 2] == "Forest_Edge_1", "edge",
+  ifelse(point.count[, 2] == "Forest_Edge_2", "edge",
+  ifelse(point.count[, 2] == "Forest_Edge_3", "edge", NA)))))))))))))))))))))))))))
 
 # Note for Don: str(foo) displays a compact form of the object
 str(point.count) 
