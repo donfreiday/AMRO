@@ -114,11 +114,7 @@ point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, sep='_'
 det.covs <- point.count[,c(4:8,23:25,27:28)]
 det.covs <- det.covs[!duplicated(det.covs), ]
 
-# point.count.all will be all species using the area
-# point.count is never referenced again after this, as such creating variable point.count.all can be omitted without ill effect
-# point.count.all <- point.count
-
-#melt count data
+# Melt count data
 data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
 
 # Iterate over species codes
