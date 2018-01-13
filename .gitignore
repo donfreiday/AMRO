@@ -2,3 +2,5 @@
 .RData
 .Rhistory
 *.csv
+AMRO*Results.xlsx
+AMRO*Results.csv
