@@ -8,8 +8,10 @@ library(unmarked)
 library(reshape2)
 library(ggplot2)
 library(plyr) 
+library(tcltk)
 
-setwd("~/projects/AMRO")
+#setwd("~/projects/AMRO")
+setwd(tclvalue(tkchooseDirectory()))
 
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP");
