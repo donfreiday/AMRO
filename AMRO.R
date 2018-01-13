@@ -10,11 +10,12 @@ library(ggplot2)
 library(plyr) 
 library(tcltk)
 
-#setwd("~/projects/AMRO")
-setwd(tclvalue(tkchooseDirectory()))
-
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP");
+
+while(!file.exists("PC_DATA_16.csv")) {
+  setwd(tk_choose.dir(default="~", caption="Select working directory containing PC_DATA_16.csv"))
+}
 
 # Import point count data from CSV file
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
