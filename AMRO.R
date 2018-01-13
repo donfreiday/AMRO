@@ -88,9 +88,6 @@ point.count$category <-
   ifelse(point.count[, 2] == "Forest_Edge_2", "edge",
   ifelse(point.count[, 2] == "Forest_Edge_3", "edge", NA)))))))))))))))))))))))))))
 
-# Note for Don: str(foo) displays a compact form of the object
-str(point.count) 
-
 # Create a column with month data
 point.count$date.char <- as.character(point.count$DATE)
 point.count$date.char.sub <- substr(point.count$date.char, 0, 2)
