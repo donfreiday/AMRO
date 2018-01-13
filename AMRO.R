@@ -12,22 +12,10 @@ library(plyr)
 
 setwd("~/projects/AMRO")
 
-
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP");
 
-#####################################
-# # This for loop is an example for Tim
-# for(species in species.codes) {
-#   cat(species, "\n")
-# }
-# # This function is an example for Tim
-# println <- function(string) {
-#   cat(string, "\n")
-# }
-# println(species)
-#####################################
-
+# Import point count data from CSV file
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
 
 # Get rid of surveys from points with no planting or no maintenance due to not enough survey points
