@@ -78,22 +78,8 @@ point.count$category <-
   ifelse(point.count[, 2] == "Forest_Edge_2", "edge",
   ifelse(point.count[, 2] == "Forest_Edge_3", "edge", NA)))))))))))))))))))))))))))
 
-# Create a column with month data
-point.count$date.char <- as.character(point.count$DATE)
-point.count$date.char.sub <- substr(point.count$date.char, 0, 2)
-point.count$month <- ifelse(
-  point.count$date.char.sub == "9/",
-  "September",
-  ifelse(
-    point.count$date.char.sub == "10",
-    "October",
-    ifelse(point.count$date.char.sub == "11", "November",
-           NA)
-  )
-)
-point.count$date.char <- NULL
-point.count$date.char.sub <- NULL
-
+# Create a column with month names
+point.count$month <- format(as.Date(point.count$DATE, "%m/%d/%Y"), "%B")
 
 # Combine all 0-11 m and 11-25m observations to make a better half normal function and even distance breaks
 point.count$dist.band.num <- ifelse(point.count$Distance.Band == "0-10 m", "1",
