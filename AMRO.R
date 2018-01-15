@@ -126,8 +126,8 @@ all.birds.umf <- unmarkedFrameDS(y=as.matrix(all.birds[,11:12]),
                                              dist.breaks = c(0,25,50), 
                                              unitsIn = "m", 
                                              survey = "point")
-fm1.all.birds <- distsamp(~1 ~block_id, all.birds.umf)
-output <- predict(fm1.all.birds, "state", appendData=TRUE)
+output <- distsamp(~1 ~block_id, all.birds.umf)
+output <- predict(output, "state", appendData=TRUE)
 output[,"Species"] <- species
 
 # Set months with no data to zero
