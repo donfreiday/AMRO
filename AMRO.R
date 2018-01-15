@@ -10,7 +10,6 @@ library(reshape2) # Flexibly restructure and aggregate data using just two funct
 library(ggplot2)  # A system for 'declaratively' creating graphics
 library(plyr)     # Tools for splitting, applying and combining Data
 library(tcltk)    # Interface and language bindings to Tcl/Tk GUI elements.
-library(taxize)   # taxonomic toolbelt; wraps APIs for a large suite of taxonomic databases available on the web.
 
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP");
