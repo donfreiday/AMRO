@@ -108,7 +108,7 @@ data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id
 for(species in species.codes) {
   cat("Processing ", species, "\n")
 
-###Cast count data using the sum of all sparrows seen 
+# Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
 # Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
 # Reshape2 https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
@@ -120,12 +120,13 @@ count.data <- count.data[, -c(4:5)]
 all.birds <- merge(det.covs, count.data, by= "survey_id", all=T)
 all.birds[is.na(all.birds)] <- 0
 
-####Try using block_id in State Variable
+# Try using block_id in State Variable
 all.birds.umf <- unmarkedFrameDS(y=as.matrix(all.birds[,11:12]),
-                                                 siteCovs=data.frame(all.birds[,c(3:6,10)]),
-                                                 dist.breaks=c(0,25,50), unitsIn="m", survey="point")
-(fm1.all.birds <- distsamp(~1 ~block_id, all.birds.umf))
-
+                                             siteCovs = data.frame(all.birds[,c(3:6,10)]),
+                                             dist.breaks = c(0,25,50), 
+                                             unitsIn = "m", 
+                                             survey = "point")
+fm1.all.birds <- distsamp(~1 ~block_id, all.birds.umf)
 output <- predict(fm1.all.birds, "state", appendData=TRUE)
 output[,"Species"] <- species
 
