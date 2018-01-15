@@ -4,14 +4,17 @@
 rm(list = ls(all.names = TRUE))
 
 # Missing packages can be installed using install.packages("<package>") in the R Console.
-library(unmarked)
-library(reshape2)
-library(ggplot2)
-library(plyr) 
-library(tcltk)
+
+library(unmarked) # Fits hierarchical models of animal abundance and occurrence to data collected using survey methods
+library(reshape2) # Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast').
+library(ggplot2)  # A system for 'declaratively' creating graphics
+library(plyr)     # Tools for splitting, applying and combining Data
+library(tcltk)    # Interface and language bindings to Tcl/Tk GUI elements.
+library(taxize)   # taxonomic toolbelt; wraps APIs for a large suite of taxonomic databases available on the web.
 
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP");
+species.names <- c("")
 
 while(!file.exists("PC_DATA_16.csv")) {
   setwd(tk_choose.dir(default="~", caption="Select working directory containing PC_DATA_16.csv"))
