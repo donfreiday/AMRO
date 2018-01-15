@@ -13,7 +13,6 @@ library(tcltk)    # Interface and language bindings to Tcl/Tk GUI elements.
 
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP");
-species.names <- c("")
 
 while(!file.exists("PC_DATA_16.csv")) {
   setwd(tk_choose.dir(default="~", caption="Select working directory containing PC_DATA_16.csv"))
@@ -21,6 +20,9 @@ while(!file.exists("PC_DATA_16.csv")) {
 
 # Import point count data from CSV file
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
+
+# AOU data from Nathan L Brouwer's github: https://github.com/brouwern/wildlifeR/blob/master/data/AOU_species_codes.RData
+load("./AOU.codes.RData")
 
 # Get rid of surveys from points with no planting or no maintenance due to not enough survey points
 # Note for Don: in R, & is a vectorized operator. &&  form evaluates left to right examining only the first element of each vector.
