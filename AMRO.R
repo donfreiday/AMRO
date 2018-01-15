@@ -109,14 +109,16 @@ det.covs <- det.covs[!duplicated(det.covs), ]
 data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id","month","category","age","Distance.Band","Species.Code","Point.Name","DATE"), measure=c("Total.Count"), na.rm=FALSE)
 
 # Iterate over species codes
-for(species in species.codes) {
-  cat("Processing ", species, "\n")
+for(species.code in species.codes) {
+  # Look up species name in AOU.codes
+  species.name <- as.character(AOU.codes[which(AOU.codes[,2] == species.code), 3])
+  cat("Processing ", species.code, " : ", species.name, "\n")
 
 # Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
 # Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
 # Reshape2 https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
-count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == species )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
+count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == species.code )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
 
 # Remove last two distance columns to subset out birds beyond 50 meters
 count.data <- count.data[, -c(4:5)]
@@ -132,7 +134,7 @@ all.birds.umf <- unmarkedFrameDS(y=as.matrix(all.birds[,11:12]),
                                              survey = "point")
 output <- distsamp(~1 ~block_id, all.birds.umf)
 output <- predict(output, "state", appendData=TRUE)
-output[,"Species"] <- species
+output[,"Species"] <- species.code
 
 # Set months with no data to zero
 # todo: this better
@@ -143,8 +145,6 @@ for (i in 1:4) {
 # Keep only abundance data, removing site covariates removing duplicate rows for display purposes.
 output <- output[ , -c(5:10)]
 output <- output[!duplicated(output), ]
-
-# todo: change species code to species name for aesthetic purposes
 
 # Create columns for category and month for display
 output$category <- lapply(strsplit(output$block_id, "_"), `[`, 1)
@@ -160,18 +160,18 @@ output$block_id <- as.factor(output$block_id )
 output$block_id <- factor(output$block_id, levels = c("y0_September", "y0_October", "y0_November", "y3_September", "y3_October", "y3_November", "y5_September", "y5_October", "y5_November", "y7_September", "y7_October", "y7_November", "y15_September", "y15_October", "y15_November", "y25_September", "y25_October", "y25_November", "edge_September", "edge_October", "edge_November", "mature_September", "mature_October", "mature_November") )
 levels(output$block_id)
 
-write.csv(output, paste("./", species, " Results.csv"))
+write.csv(output, paste("./results", species.code, "Results.csv"))
 
 p <- ggplot(output, 
             aes(x = category, y = Predicted, fill= month)) +
             geom_bar( stat="identity", color = "black", position=position_dodge() ) +
             geom_errorbar(stat="identity", aes(x = category, ymin=lower, ymax=upper), width=.2, position=position_dodge(width = 1) ) +
-            ggtitle(paste("Relative Abundance of ", species, "Using Areas of Different Tree\nPlanting Treatments at Middle Run Valley Park in Fall 2016")) +
+            ggtitle(paste("Relative Abundance of ", species.name, "s Using Areas of Different Tree\nPlanting Treatments at Middle Run Valley Park in Fall 2016")) +
             labs(x="Category", y="Density (birds/Ha)")
 
  p <- p + scale_fill_manual(values=c('springgreen4','gold', 'firebrick1'))
  
-ggsave(p, file=paste("./", species, ".png", sep=''), scale=2)
+ggsave(p, file=paste("./results/", species.code, ".png", sep=''), scale=2)
                          
 }
 
