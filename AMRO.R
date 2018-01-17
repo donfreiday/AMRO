@@ -23,7 +23,7 @@ while(!file.exists("PC_DATA_16.csv")) {
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
 
 # AOU data from Nathan L Brouwer's github: https://github.com/brouwern/wildlifeR/blob/master/data/AOU_species_codes.RData
-load("./AOU.codes.RData")
+AOU.codes <- read.csv("AOU.codes.csv")
 
 # Get rid of surveys from points with no planting or no maintenance due to not enough survey points
 # Note for Don: in R, & is a vectorized operator. &&  form evaluates left to right examining only the first element of each vector.
@@ -112,8 +112,8 @@ data.count.melt <- melt(point.count, id=c("survey_id", "dist.band.num","block_id
 # Iterate over species codes
 for(species.code in species.codes) {
   # Look up species name in AOU.codes
-  species.name <- as.character(AOU.codes[which(AOU.codes[,2] == species.code), 3])
-  cat("Processing ", species.code, " : ", species.name, "\n")
+  species.name <- as.character(AOU.codes[which(AOU.codes[,3] == species.code), 4])
+  cat("Processing ", species.code, ":", species.name, "\n")
 
 # Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
