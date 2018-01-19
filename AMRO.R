@@ -14,9 +14,11 @@ library(tcltk)    # Interface and language bindings to Tcl/Tk GUI elements.
 # Analysis will be performed on each of these species codes via for loop
 species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "YRWA");
 
-# todo: directory browser dialog opens behind other windows on Windows
 while(!file.exists("PC_DATA_16.csv")) {
-  setwd(tk_choose.dir(default="~", caption="Select working directory containing PC_DATA_16.csv"))
+  if(Sys.info()['sysname'] == "Windows") {
+    print("Since you are running windows, the directory browse dialog window probably opened behind RStudio; minimize this RStudio to select a working directory.")
+  }
+  setwd(tk_choose.dir(default = "~", caption = "Select working directory containing PC_DATA_16.csv"))
 }
 
 # Import point count data from CSV file
