@@ -1,18 +1,23 @@
-# todo: explain what this program does, create a readme.md
+# File: AMRO.R
+# Date: 1/20/2018
+# Authors: Don and Tim Freiday
+# Use distance sampling on point count data to predict bird abundances 
+# in different ages of tree plantings. Point count data is expected
+# to be in the same format as "PC_DATA_16.csv". Generates a summary csv 
+# and graph for each species.
 
 # Remove all variables from the environment.
 rm(list = ls(all.names = TRUE))
 
-# Missing packages can be installed using install.packages("<package>") in the R Console.
+# Analysis will be performed on each of these species codes via for loop
+species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "YRWA");
 
+# Missing packages can be installed using install.packages("<package>") in the R Console.
 library(unmarked) # Fits hierarchical models of animal abundance and occurrence to data collected using survey methods
 library(reshape2) # Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast').
 library(ggplot2)  # A system for 'declaratively' creating graphics
 library(plyr)     # Tools for splitting, applying and combining Data
 library(tcltk)    # Interface and language bindings to Tcl/Tk GUI elements.
-
-# Analysis will be performed on each of these species codes via for loop
-species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "YRWA");
 
 while(!file.exists("PC_DATA_16.csv")) {
   if(Sys.info()['sysname'] == "Windows") {
