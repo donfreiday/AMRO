@@ -122,7 +122,7 @@ for(species.code in species.codes) {
   # Look up species name in AOU.codes
   species.name <- as.character(AOU.codes[which(AOU.codes[,3] == species.code), 4])
   cat("Processing ", species.code, ":", species.name, "\n")
-species.code <- "RUBL"
+
 # Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
 # Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
