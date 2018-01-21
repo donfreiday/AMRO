@@ -9,9 +9,6 @@
 # Remove all variables from the environment.
 rm(list = ls(all.names = TRUE))
 
-# Analysis will be performed on each of these species codes via for loop
-species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "YRWA");
-
 # Missing packages can be installed using install.packages("<package>") in the R Console.
 library(unmarked) # Fits hierarchical models of animal abundance and occurrence to data collected using survey methods
 library(reshape2) # Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast').
@@ -28,6 +25,10 @@ while(!file.exists("PC_DATA_16.csv")) {
 
 # Import point count data from CSV file
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
+
+# Analysis will be performed on each of these species codes via for loop
+# species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "YRWA");
+species.codes <- unique(as.character(point.count$Species.Code))
 
 # AOU data from Nathan L Brouwer's github: https://github.com/brouwern/wildlifeR/blob/master/data/AOU_species_codes.RData
 AOU.codes <- read.csv("AOU.codes.csv")
