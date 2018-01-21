@@ -130,7 +130,8 @@ for(species.code in species.codes) {
 count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == species.code )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
 
 # Remove last two distance columns to subset out birds beyond 50 meters
-count.data <- count.data[, -c(4:5)]
+count.data$`3` <- NULL
+count.data$`4` <- NULL
 
 # If we're missing detection columns in count.data, create them and fill with zeros
 if (!("1" %in% colnames(count.data))) {
