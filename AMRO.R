@@ -132,6 +132,15 @@ count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(
 # Remove last two distance columns to subset out birds beyond 50 meters
 count.data <- count.data[, -c(4:5)]
 
+# If we're missing detection columns in count.data, create them and fill with zeros
+if (!("1" %in% colnames(count.data))) {
+  count.data$"1" <- 0
+} 
+if (!("2" %in% colnames(count.data))) {
+  count.data$"2" <- 0
+} 
+
+
 all.birds <- merge(det.covs, count.data, by= "survey_id", all=T)
 all.birds[is.na(all.birds)] <- 0
 
