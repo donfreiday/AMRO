@@ -174,7 +174,7 @@ p <- ggplot(output,
             aes(x = category, y = Predicted, fill= month)) +
             geom_bar( stat="identity", color = "black", position=position_dodge() ) +
             geom_errorbar(stat="identity", aes(x = category, ymin=lower, ymax=upper), width=.2, position=position_dodge(width = 1) ) +
-            ggtitle(paste("Relative Abundance of ", species.name, "s Using Areas of Different Tree\nPlanting Treatments at Middle Run Valley Park in Fall 2016")) +
+            ggtitle(paste("Relative Abundance of ", species.name,"s Using Areas of Different Tree\nPlanting Treatments at Middle Run Valley Park in Fall 2016", sep = "")) +
             labs(x="Category", y="Density (birds/Ha)")
 
  p <- p + scale_fill_manual(values=c('springgreen4','gold', 'firebrick1'))
