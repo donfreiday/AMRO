@@ -26,16 +26,16 @@ while(!file.exists("PC_DATA_16.csv")) {
 # Import point count data from CSV file
 point.count <- read.csv('PC_DATA_16.csv', header=TRUE)
 
+# Get rid of surveys from points with no planting or no maintenance due to not enough survey points
+# Note for Don: in R, & is a vectorized operator. &&  form evaluates left to right examining only the first element of each vector.
+point.count <- subset(point.count, point.count[,2] != "Maintenance_No_Planting"  & point.count[,2] != "No_Planting_No_Maintenance", drop=T)
+
 # Analysis will be performed on each of these species codes via for loop
 # species.codes <- c("AMRO", "EABL", "SAVS", "SWSP", "YRWA");
 species.codes <- unique(as.character(point.count$Species.Code))
 
 # AOU data from Nathan L Brouwer's github: https://github.com/brouwern/wildlifeR/blob/master/data/AOU_species_codes.RData
 AOU.codes <- read.csv("AOU.codes.csv")
-
-# Get rid of surveys from points with no planting or no maintenance due to not enough survey points
-# Note for Don: in R, & is a vectorized operator. &&  form evaluates left to right examining only the first element of each vector.
-point.count <- subset(point.count, point.count[,2] != "Maintenance_No_Planting"  & point.count[,2] != "No_Planting_No_Maintenance", drop=T)
 
 # Create a column for age value and fill it
 point.count$age <- 
@@ -122,7 +122,7 @@ for(species.code in species.codes) {
   # Look up species name in AOU.codes
   species.name <- as.character(AOU.codes[which(AOU.codes[,3] == species.code), 4])
   cat("Processing ", species.code, ":", species.name, "\n")
-
+species.code <- "RUBL"
 # Cast count data using the sum of all sparrows seen 
 # todo: Use species variable instead of string literal
 # Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
