@@ -15,6 +15,12 @@ library(reshape2) # Flexibly restructure and aggregate data using just two funct
 library(ggplot2)  # A system for 'declaratively' creating graphics
 library(plyr)     # Tools for splitting, applying and combining Data
 library(tcltk)    # Interface and language bindings to Tcl/Tk GUI elements.
+library(rstudioapi) # RStudio API, used here to get the directory containing the executing script
+
+# If we're running in RStudio, we can use this function to set the working directory to the location of the current R file
+if(rstudioapi::isAvailable()) {
+  setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+}
 
 while(!file.exists("PC_DATA_16.csv")) {
   if(Sys.info()['sysname'] == "Windows") {
@@ -105,7 +111,7 @@ point.count$dist.band.num <- ifelse(point.count$Distance.Band == "0-10 m", "1",
 # Create another column with month and category as a unique identifier
 point.count$block_id <- paste(point.count$category, point.count$month, sep='_')
 
-# create one more category to identify unique surveys
+# Create one more category to identify unique surveys
 point.count$survey_id <- paste(point.count$Point.Name, point.count$DATE, sep='_')
 
 # Now I think the data are in order, but we still need to manipulate it into the pieces we want to analyze
@@ -124,7 +130,6 @@ for(species.code in species.codes) {
   cat("Processing ", species.code, ":", species.name, "\n")
 
 # Cast count data using the sum of all sparrows seen 
-# todo: Use species variable instead of string literal
 # Dcast reference: https://www.computerworld.com/article/2486425/business-intelligence/business-intelligence-4-data-wrangling-tasks-in-r-for-advanced-beginners.html?page=8
 # Reshape2 https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
 count.data <- dcast(data.count.melt, survey_id ~ dist.band.num, sum, subset = .(Species.Code == species.code )) # | (Species.Code=="AMRO" ) | (Species.Code=="VEER") | (Species.Code=="SWTH") | (Species.Code=="WOTH") | (Species.Code=="EABL"))) # | (Species.Code=="SAVS") | (Species.Code=="SWSP") | (Species.Code=="FOSP"))) 
@@ -140,7 +145,6 @@ if (!("1" %in% colnames(count.data))) {
 if (!("2" %in% colnames(count.data))) {
   count.data$"2" <- 0
 } 
-
 
 all.birds <- merge(det.covs, count.data, by= "survey_id", all=T)
 all.birds[is.na(all.birds)] <- 0
